@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,6 +81,17 @@ return [
     */
 
     'locale' => 'en',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Locale Options
+    |--------------------------------------------------------------------------
+    */
+
+    'available_locales' => [
+        'en',
+        'es',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -165,8 +176,10 @@ return [
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
+        App\Providers\ApiServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\SystemStatusServiceProvider::class,
 
     ],
 

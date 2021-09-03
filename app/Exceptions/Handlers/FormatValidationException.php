@@ -26,7 +26,7 @@ class FormatValidationException extends FormatAnyException
      * @param Throwable $exception
      * @return int|null
      */
-    protected function getStatus(Throwable $exception): ?int
+    public function getStatus(Throwable $exception): ?int
     {
         return 422;
     }
@@ -35,7 +35,7 @@ class FormatValidationException extends FormatAnyException
      * @param Throwable $exception
      * @return string|null
      */
-    protected function getId(Throwable $exception): ?string
+    public function getId(Throwable $exception): ?string
     {
         return 'validation-error';
     }
@@ -44,7 +44,7 @@ class FormatValidationException extends FormatAnyException
      * @param Throwable $exception
      * @return string
      */
-    protected function getTitle(Throwable $exception): string
+    public function getTitle(Throwable $exception): string
     {
         return 'A validation error occurred';
     }
@@ -53,7 +53,7 @@ class FormatValidationException extends FormatAnyException
      * @param Throwable $exception
      * @return array|null
      */
-    protected function getMeta(Throwable $exception): ?array
+    public function getMeta(Throwable $exception): ?array
     {
         $meta = parent::getMeta($exception) ?? [];
 

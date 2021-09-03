@@ -2,11 +2,13 @@
 
 namespace App\Exceptions\Handlers;
 
+use Api\Exceptions\NotFoundException;
 use Api\Guards\OAuth2\League\Exceptions\AuthException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use Throwable;
 
-class FormatAuthException extends FormatAnyException
+class FormatNotFoundException extends FormatAnyException
 {
     /**
      * A list of the exception types that this handler will respond to.
@@ -14,8 +16,8 @@ class FormatAuthException extends FormatAnyException
      * @var array
      */
     protected array $respondsTo = [
-        AuthException::class,
-        OAuthServerException::class,
+        NotFoundException::class,
+        ModelNotFoundException::class,
     ];
 
     /**
@@ -24,7 +26,7 @@ class FormatAuthException extends FormatAnyException
      */
     public function getStatus(Throwable $exception): ?int
     {
-        return 403;
+        return 404;
     }
 
     /**
@@ -33,7 +35,7 @@ class FormatAuthException extends FormatAnyException
      */
     public function getId(Throwable $exception): string
     {
-        return 'access-denied';
+        return 'not-found';
     }
 
     /**
@@ -50,6 +52,6 @@ class FormatAuthException extends FormatAnyException
             return $exception->getPayload()['error_description'] ?? $exception->getMessage();
         }
 
-        return 'Access denied';
+        return 'Resource not found';
     }
 }

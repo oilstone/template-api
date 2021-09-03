@@ -75,7 +75,7 @@ class FormatAnyException implements Handler
      * @param Throwable $exception
      * @return int|null
      */
-    protected function getStatus(Throwable $exception): ?int
+    public function getStatus(Throwable $exception): ?int
     {
         if (in_array($exception->getCode(), array_keys(Response::$statusTexts))) {
             return $exception->getCode();
@@ -92,7 +92,7 @@ class FormatAnyException implements Handler
      * @param Throwable $exception
      * @return array|null
      */
-    protected function getMeta(Throwable $exception): ?array
+    public function getMeta(Throwable $exception): ?array
     {
         $meta = [];
         $previous = $exception->getPrevious();
@@ -101,7 +101,7 @@ class FormatAnyException implements Handler
             $meta = array_merge($meta, $exception->meta() ?? []);
         }
 
-        if (method_exists($previous, 'meta')) {
+        if ($previous && method_exists($previous, 'meta')) {
             $meta = array_merge($meta, $previous->meta() ?? []);
         }
 
@@ -128,7 +128,7 @@ class FormatAnyException implements Handler
      * @param Throwable $exception
      * @return string|null
      */
-    protected function getId(Throwable $exception): ?string
+    public function getId(Throwable $exception): ?string
     {
         if (method_exists($exception, 'getId')) {
             return $exception->getId();
@@ -141,7 +141,7 @@ class FormatAnyException implements Handler
      * @param Throwable $exception
      * @return int|null
      */
-    protected function getCode(Throwable $exception): ?int
+    public function getCode(Throwable $exception): ?int
     {
         return $this->getStatus($exception);
     }
@@ -150,7 +150,7 @@ class FormatAnyException implements Handler
      * @param Throwable $exception
      * @return string
      */
-    protected function getTitle(Throwable $exception): string
+    public function getTitle(Throwable $exception): string
     {
         if (method_exists($exception, 'getTitle')) {
             return $exception->getTitle();
@@ -163,7 +163,7 @@ class FormatAnyException implements Handler
      * @param Throwable $exception
      * @return string|null
      */
-    protected function getDetail(Throwable $exception): ?string
+    public function getDetail(Throwable $exception): ?string
     {
         $previous = $exception->getPrevious();
 
@@ -171,7 +171,7 @@ class FormatAnyException implements Handler
             return $exception->detail();
         }
 
-        if (method_exists($previous, 'detail')) {
+        if ($previous && method_exists($previous, 'detail')) {
             return $previous->detail();
         }
 

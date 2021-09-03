@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Factories\Stitch as StitchFactory;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
@@ -24,8 +23,6 @@ class AppServiceProvider extends ServiceProvider
                 $app['Illuminate\Routing\Redirector']
             );
         });
-
-        StitchFactory::boot();
     }
 
     /**

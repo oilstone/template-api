@@ -55,6 +55,8 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'doNotCacheResponse' => \Spatie\ResponseCache\Middlewares\DoNotCacheResponse::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'setlocale' => \App\Http\Middleware\SetLocale::class,
     ];
 }

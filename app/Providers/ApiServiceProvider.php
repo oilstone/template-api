@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
-use Api\Api as ApiPackage;
+use Api\Api;
 use Api\Config\Manager;
+use Api\Config\Store;
 use Api\Package;
 use Api\Repositories\Contracts\User as UserRepositoryInterface;
 use App\Exceptions\Handlers\FormatAnyException;
 use App\Exceptions\Handlers\FormatAuthException;
+use App\Exceptions\Handlers\FormatNotFoundException;
 use App\Exceptions\Handlers\FormatValidationException;
 use App\Exceptions\Handlers\LogException;
 use App\Factories\Schema as SchemaFactory;
@@ -25,11 +27,17 @@ class ApiServiceProvider extends ServiceProvider
     {
         $package = new Package();
 
+        $package->configure('request', function (Store $config) {
+            if (in_array(request()->segment(1), config('app.available_locales'))) {
+                $config->set('prefix', request()->segment(1));
+            }
+        });
+
         $this->registerOAuth($package);
 
         $this->registerConnections();
 
-        $this->app->singleton(ApiPackage::class, function () use ($package) {
+        $this->app->singleton(Api::class, function () use ($package) {
             $api = $package->api();
 
             $this->registerExceptionHandlers($api);
@@ -72,22 +80,23 @@ class ApiServiceProvider extends ServiceProvider
     }
 
     /**
-     * @param ApiPackage $api
+     * @param Api $api
      * @return void
      */
-    protected function registerExceptionHandlers(ApiPackage $api): void
+    protected function registerExceptionHandlers(Api $api): void
     {
         $api->exceptionHandler(app(LogException::class));
+        $api->exceptionHandler(app(FormatNotFoundException::class));
         $api->exceptionHandler(app(FormatAuthException::class));
         $api->exceptionHandler(app(FormatValidationException::class));
         $api->exceptionHandler(app(FormatAnyException::class));
     }
 
     /**
-     * @param ApiPackage $api
+     * @param Api $api
      * @return void
      */
-    protected function registerResources(ApiPackage $api): void
+    protected function registerResources(Api $api): void
     {
         ApiResourceLoader::make()
             ->api($api)

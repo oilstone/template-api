@@ -1,22 +1,25 @@
 {
-    "name": "oilstone/template-api",
+    "name": "laravel/laravel",
     "type": "project",
-    "description": "Online Solutions Ltd. API project template",
-    "keywords": [],
+    "description": "The Laravel Framework.",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0",
         "ext-pdo": "*",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "garethhudson07/api": "^3.22",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-        "oilstone/api-resource-loader": "^1.4",
+        "oilstone/api-resource-loader": "^2.0",
         "oilstone/logging": "^2.0",
         "oilstone/system-status": "^1.0.0",
-        "spatie/laravel-responsecache": "^6.6"
+        "spatie/laravel-responsecache": "^6.6",
+        "symfony/psr-http-message-bridge": "^2.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

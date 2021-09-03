@@ -20,4 +20,12 @@ Route::group(['middleware' => 'doNotCacheResponse', 'prefix' => 'oauth'], functi
 
 Route::post('/validate', 'Validation@validate');
 
+Route::group([
+    'prefix' => '{locale}',
+    'where' => ['locale' => '[a-zA-Z]{2}'],
+    'middleware' => 'setlocale',
+], function () {
+    Route::any('{fallbackPlaceholder}', 'Api@api')->where('fallbackPlaceholder', '.*');
+});
+
 Route::any('{fallbackPlaceholder}', 'Api@api')->where('fallbackPlaceholder', '.*')->fallback();

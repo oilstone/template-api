@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Handlers\FormatAnyException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Str;
+use Neomerx\JsonApi\Contracts\Schema\DocumentInterface;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -16,16 +17,20 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (Throwable $e) {
+            $parser = new FormatAnyException;
+
             return response()->json([
                 'errors' => [
-                    [
-                        'id' => Str::kebab(class_basename($e)),
-                        'code' => $e->getCode(),
-                        'status' => property_exists($e, 'status') ? $e->status : 500,
-                        'title' => $e->getMessage(),
-                    ]
+                    array_filter([
+                        DocumentInterface::KEYWORD_ERRORS_ID => $parser->getId($e),
+                        DocumentInterface::KEYWORD_ERRORS_CODE => $parser->getCode($e),
+                        DocumentInterface::KEYWORD_ERRORS_STATUS => $parser->getStatus($e),
+                        DocumentInterface::KEYWORD_ERRORS_TITLE => $parser->getTitle($e),
+                        DocumentInterface::KEYWORD_ERRORS_DETAIL => $parser->getDetail($e),
+                        DocumentInterface::KEYWORD_ERRORS_META => $parser->getMeta($e),
+                    ]),
                 ],
-            ], property_exists($e, 'status') ? $e->status : 500);
+            ], $parser->getStatus($e));
         });
     }
 }

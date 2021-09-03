@@ -3,6 +3,7 @@
 namespace App\Exceptions\Handlers;
 
 use Api\Exceptions\Contracts\Handler;
+use Api\Exceptions\NotFoundException;
 use Api\Guards\OAuth2\League\Exceptions\AuthException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -29,6 +30,7 @@ class LogException implements Handler
         ValidationException::class,
         AuthException::class,
         OAuthServerException::class,
+        NotFoundException::class,
     ];
 
     /**
