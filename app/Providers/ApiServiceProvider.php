@@ -100,7 +100,6 @@ class ApiServiceProvider extends ServiceProvider
     {
         ApiResourceLoader::make()
             ->api($api)
-            ->schemaFactory(SchemaFactory::class)
             ->loadResourcesFromPath(base_path('app/Resources/*.php'), '\\App\\Resources\\');
     }
 }
